@@ -9,9 +9,12 @@ function resolve(dir) {
 
 module.exports = merge(common, {
 	output: {
-		path: resolve('./dist/'),
+		//path: resolve('./dist/'),
+		path: resolve('../server/public/'),
 		filename: 'bootstrap-select.js',
-		libraryTarget: 'umd'
+		//libraryTarget: 'umd'
+		library: 'BtsSelect',
+		libraryExport: 'default'
 	},
 
 	//devtool: '#cheap-module-eval-source-map',

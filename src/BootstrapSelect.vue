@@ -1,16 +1,17 @@
 <template>
-	<div class="form-group" :id="id">
-		<label :for="id+'-input'">{{pLabel}}</label>
-		<div class="z-dropdown-arrow" @click="toggle($event)">
+	<div>
+		<div :class="['z-dropdown-arrow',{'hidden': isLoading}]" @click="toggle($event)">
+			<loader class="loader-position" v-if="isLoading"/>
 			<input
-					:class="['form-control', 'form-control-sm', 'z-input', 'z-transitions', {'z-focus':hasFocus}]"
+					:class="['form-control', 'form-control-sm', 'z-input',
+					{'isLoading': isLoading || isSynchronizing}]"
 					:id="id+'-input'"
 					v-model="valueDescription"
 					:data-selected-value="selectedValue.value"
 					:readonly="readonly"/>
 		</div>
 		<div
-				:class="['list-group', 'z-combo-list', 'z-transitions', {'z-hidden': !listIsVisible}]">
+				:class="['list-group', 'z-combo-list', {'z-hidden': !listIsVisible}]">
 			<a
 					href="#" v-for="item in filteredItems"
 					:class="[
@@ -27,65 +28,35 @@
 <style scoped>
 	/* Resets box-shadow margin from focus */
 	.z-input {
-		/*Transition*/
-		-webkit-box-shadow: 0px 0px 0px 0px rgba(76, 171, 255, 0);
-		-moz-box-shadow: 0px 0px 0px 0px rgba(76, 171, 255, 0);
-		box-shadow: 0px 0px 0px 0px rgba(76, 171, 255, 0);
-	}
-
-	/* Adds blue margin using box-shadow to the input field */
-	.z-focus {
-		/*Transition*/
-		-webkit-box-shadow: 0px 0px 0px 2px rgba(76, 171, 255, 1);
-		-moz-box-shadow: 0px 0px 0px 2px rgba(76, 171, 255, 1);
-		box-shadow: 0px 0px 0px 2px rgba(76, 171, 255, 1);
-	}
-
-	.z-transitions {
-		transition-delay: 0s;
-		transition-duration: 0.25s;;
-		transition-property: box-shadow, -webkit-box-shadow, -moz-box-shadow, opacity, visibility;
-		transition-timing-function: ease-in-out;
+		cursor: default;
+		padding-right: 16px;
 	}
 
 	.z-combo-list {
 		position: absolute;
 		display: block;
 		z-index: 999999;
-		margin-top: 2px;
-
-		/*Transition*/
-		visibility: visible;
-		opacity: 1;
 		overflow-y: auto;
-
-		-webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2);
-		-moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2);
-		box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2);
-
-		border-radius: 10px 10px 10px 10px;
-		-moz-border-radius: 10px 10px 10px 10px;
-		-webkit-border-radius: 10px 10px 10px 10px;
-
+		border-radius: 5px 5px 5px 5px;
+		-moz-border-radius: 5px 5px 5px 5px;
+		-webkit-border-radius: 5px 5px 5px 5px;
 		border: 1px solid rgba(217, 217, 217, 1);
 	}
 
 	.z-hidden {
-		/*Transition*/
 		visibility: hidden;
-		opacity: 0;
 	}
 
 	.z-list-item {
-		height: 30px;
+		font-size: 0.9rem;
+		height: 2rem;
 		border-width: 1px 0px 1px 0px;
-		line-height: 30px;
+		line-height: 2rem;
 		padding: 0 0 0 0.85em;
 	}
 
 	.z-dropdown-arrow {
 		position: relative;
-		text-align: right;
 		overflow: visible;
 		display: block;
 	}
@@ -93,8 +64,6 @@
 	.z-dropdown-arrow:after {
 		position: absolute;
 		top: 50%;
-		margin-left: -1.255em;
-		margin-top: -0.125em;
 		width: 5px;
 		height: 5px;
 		right: 0.5em;
@@ -110,11 +79,17 @@
 		background-color: #fff;
 	}
 
-</style>
+	.isLoading {
+		background-color: #f2f2f2;
+	}
 
-<style>
-	label {
-		margin-bottom: .005rem;
+	.loader-position {
+		position: absolute;
+		right: 0px;
+	}
+
+	.hidden:after {
+		visibility: hidden;
 	}
 
 </style>
