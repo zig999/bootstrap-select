@@ -3,8 +3,10 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 function resolve(dir) {
-    return path.join(__dirname, '/../', dir)
+	return path.join(__dirname, '/../', dir)
 }
 
 module.exports = merge(common, {
@@ -25,7 +27,13 @@ module.exports = merge(common, {
 			'process.env': {
 				NODE_ENV: '"development"'
 			}
-		})
+		}),
+		new CopyWebpackPlugin([
+
+				{from: './src/index.html'}
+
+			]
+		)
 	]
 
 });
